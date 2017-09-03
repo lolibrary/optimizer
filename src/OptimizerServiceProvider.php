@@ -3,7 +3,7 @@
 namespace Lolibrary\Optimizer;
 
 use Illuminate\Support\ServiceProvider;
-use ImageOptimizer\Optimizer;
+use ImageOptimizer\Optimizer as BaseOptimizer;
 use ImageOptimizer\OptimizerFactory;
 
 class OptimizerServiceProvider extends ServiceProvider
@@ -15,8 +15,10 @@ class OptimizerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Optimizer::class, function ($app) {
+        $this->app->singleton(Optimizer::class, function () {
             return (new OptimizerFactory)->get();
         });
+
+        $this->app->alias(Optimizer::class, BaseOptimizer::class);
     }
 }
